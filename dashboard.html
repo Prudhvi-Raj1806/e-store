@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Founders Vault</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--color-bg);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card h3 {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .badge-item {
+            text-align: center;
+            padding: var(--spacing-md);
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .order-item {
+            background: var(--color-bg);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .order-status {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="/index.html" class="navbar-brand">
+                <span>Founders Vault</span>
+            </a>
+
+            <ul class="navbar-menu">
+                <li><a href="/index.html" class="navbar-link">Shop</a></li>
+                <li><a href="/community.html" class="navbar-link">Announcements📢</a></li>
+                <li><a href="/dashboard.html" class="navbar-link">Dashboard</a></li>
+            </ul>
+
+            <div class="navbar-actions">
+                <button class="btn btn-sm btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        <h1 class="mb-xl">My Dashboard</h1>
+
+        <!-- Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Venture Credits</h3>
+                <div class="stat-value" id="userBalance">0 VC</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <div class="stat-value" id="totalOrders">0</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Badges Earned</h3>
+                <div class="stat-value" id="badgeCount">0</div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <section class="mb-xl">
+            <h2 class="mb-md">Profile Information</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <p id="userName">-</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <p id="userEmail">-</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Member Since</label>
+                        <p id="memberSince">-</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges Section -->
+        <section class="mb-xl">
+            <h2 class="mb-md">My Badges</h2>
+            <div id="badgesContainer" class="badge-grid">
+                <p class="text-secondary">No badges earned yet</p>
+            </div>
+        </section>
+
+        <!-- Order History -->
+        <section>
+            <h2 class="mb-md">Order History</h2>
+            <div id="ordersContainer">
+                <p class="text-secondary">No orders yet</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/auth.js"></script>
+
+    <script>
+        lucide.createIcons();
+
+        const { db } = window.firebaseApp;
+        const { getCurrentUser, formatVC, formatDate, requireAuth } = window.utils;
+
+        if (!requireAuth()) {
+            // Will redirect to login
+        } else {
+            loadDashboard();
+        }
+
+        async function loadDashboard() {
+            const user = getCurrentUser();
+
+            // Display user info
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userBalance').textContent = formatVC(user.balance);
+            document.getElementById('memberSince').textContent = formatDate(user.createdAt);
+
+            // Load badges
+            if (user.badges && user.badges.length > 0) {
+                document.getElementById('badgeCount').textContent = user.badges.length;
+                loadBadges(user.badges);
+            }
+
+            // Load orders
+            loadOrders(user.uid);
+        }
+
+        async function loadBadges(badgeIds) {
+            const container = document.getElementById('badgesContainer');
+            container.innerHTML = '';
+
+            for (const badgeId of badgeIds) {
+                try {
+                    const doc = await db.collection('badges').doc(badgeId).get();
+                    if (doc.exists) {
+                        const badge = doc.data();
+                        container.innerHTML += `
+                            <div class="badge-item">
+                                <div class="badge-icon">${badge.icon}</div>
+                                <h4>${badge.name}</h4>
+                                <p class="text-secondary" style="font-size: 0.75rem;">${badge.description}</p>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error loading badge:', error);
+                }
+            }
+        }
+
+        async function loadOrders(userId) {
+            try {
+                const snapshot = await db.collection('orders')
+                    .where('userId', '==', userId)
+                    .orderBy('createdAt', 'desc')
+                    .limit(10)
+                    .get();
+
+                const container = document.getElementById('ordersContainer');
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<p class="text-secondary">No orders yet</p>';
+                    document.getElementById('totalOrders').textContent = '0';
+                    return;
+                }
+
+                document.getElementById('totalOrders').textContent = snapshot.size;
+                container.innerHTML = '';
+
+                snapshot.forEach(doc => {
+                    const order = doc.data();
+                    container.innerHTML += `
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div>
+                                    <strong>Order #${doc.id.substring(0, 8)}</strong>
+                                    <p class="text-secondary" style="font-size: 0.875rem;">${formatDate(order.createdAt)}</p>
+                                </div>
+                                <span class="order-status status-${order.status}">${order.status}</span>
+                            </div>
+                            <p><strong>Total:</strong> ${formatVC(order.totalCost)}</p>
+                            <p class="text-secondary">${order.items.length} item(s)</p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.authFunctions.logout();
+        });
+    </script>
+</body>
+
+</html>

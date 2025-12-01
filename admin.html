@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<i class="fas fa-home"></i>
+Back to Site
+</button>
+<button class="btn btn-secondary" onclick="Auth.logout()">
+    <i class="fas fa-sign-out-alt"></i>
+    Logout
+</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Admin Content -->
+<main>
+    <div class="container">
+        <div class="admin-container">
+            <!-- Sidebar -->
+            <aside class="admin-sidebar">
+                <nav class="admin-nav">
+                    <button class="admin-nav-item active" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </button>
+                    <button class="admin-nav-item" onclick="showSection('products')">
+                        <i class="fas fa-box"></i>
+                        Products
+                    </button>
+                    <button class="admin-nav-item" onclick="showSection('users')">
+                        <i class="fas fa-users"></i>
+                        Users
+                    </button>
+                    <button class="admin-nav-item" onclick="showSection('orders')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Orders
+                    </button>
+                    <button class="admin-nav-item" onclick="showSection('announcements')">
+                        <i class="fas fa-bullhorn"></i>
+                        Announcements
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section active">
+                    <div class="admin-header">
+                        <h1 class="admin-title">Dashboard</h1>
+                        <p class="admin-subtitle">Overview of your store</p>
+                    </div>
+
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+
+                    <h3 style="margin-bottom: var(--space-4);">Recent Activity</h3>
+                    <div
+                        style="background-color: var(--bg-secondary); padding: var(--space-6); border-radius: var(--radius-lg);">
+                        <p style="color: var(--text-secondary);">
+                            <i class="fas fa-chart-line"></i>
+                            All systems operational. Store is running smoothly.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="section">
+                    <div class="admin-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h1 class="admin-title">Products</h1>
+                                <p class="admin-subtitle">Manage your product catalog</p>
+                            </div>
+                            <button class="btn btn-primary" onclick="showAddProductForm()">
+                                <i class="fas fa-plus"></i>
+                                Add Product
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="productsTable">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="section">
+                    <div class="admin-header">
+                        <h1 class="admin-title">Users</h1>
+                        <p class="admin-subtitle">Manage user accounts</p>
+                    </div>
+
+                    <div id="usersTable">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="orders" class="section">
+                    <div class="admin-header">
+                        <h1 class="admin-title">Orders</h1>
+                        <p class="admin-subtitle">View and manage orders</p>
+                    </div>
+
+                    <div id="ordersTable">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Announcements Section -->
+                <section id="announcements" class="section">
+                    <div class="admin-header">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h1 class="admin-title">Announcements</h1>
+                                <p class="admin-subtitle">Manage community announcements</p>
+                            </div>
+                            <button class="btn btn-primary" onclick="showAddAnnouncementForm()">
+                                <i class="fas fa-plus"></i>
+                                New Announcement
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="announcementsTable">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin-panel.js"></script>
+</body>
+
+</html>

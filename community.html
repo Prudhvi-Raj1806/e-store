@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements📢 - Founders Vault</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        .announcement-card {
+            background: var(--color-bg);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .announcement-meta {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .announcement-content {
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="/index.html" class="navbar-brand">
+                <span>Founders Vault</span>
+            </a>
+
+            <ul class="navbar-menu">
+                <li><a href="/index.html" class="navbar-link">Shop</a></li>
+                <li><a href="/community.html" class="navbar-link">Announcements📢</a></li>
+                <li><a href="/dashboard.html" class="navbar-link">Dashboard</a></li>
+            </ul>
+
+            <div class="navbar-actions">
+                <button class="btn btn-sm btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+        <h1 class="mb-xl">Announcements📢</h1>
+
+        <div id="announcementsContainer">
+            <!-- Announcements will be loaded here -->
+        </div>
+
+        <div id="loadingContainer"></div>
+
+        <div id="emptyAnnouncements" class="text-center hidden" style="padding: var(--spacing-2xl);">
+            <i data-lucide="megaphone"
+                style="width: 64px; height: 64px; color: var(--color-text-secondary); margin: 0 auto var(--spacing-lg);"></i>
+            <h3>No announcements yet</h3>
+            <p class="text-secondary">Check back later for updates!</p>
+        </div>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/community.js"></script>
+
+    <script>
+        lucide.createIcons();
+        initCommunityPage();
+    </script>
+</body>
+
+</html>

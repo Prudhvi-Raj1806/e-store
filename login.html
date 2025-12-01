@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+Login
+</button>
+<button class="login-tab" onclick="switchTab('register')" id="registerTab">
+    Register
+</button>
+</div>
+
+<!-- Login Form -->
+<form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+    <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-envelope form-icon"></i>
+            <input type="email" class="input form-input" name="email" placeholder="student@college.edu" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-lock form-icon"></i>
+            <input type="password" class="input form-input" name="password" placeholder="Enter your password" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-sign-in-alt"></i>
+        Login
+    </button>
+</form>
+
+<!-- Register Form -->
+<form class="login-form" id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+    <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-user form-icon"></i>
+            <input type="text" class="input form-input" name="name" placeholder="John Doe" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-envelope form-icon"></i>
+            <input type="email" class="input form-input" name="email" placeholder="student@college.edu" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">College/University</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-graduation-cap form-icon"></i>
+            <input type="text" class="input form-input" name="college" placeholder="Your College Name" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-phone form-icon"></i>
+            <input type="tel" class="input form-input" name="phone" placeholder="+91 98765 43210" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="form-input-wrapper">
+            <i class="fas fa-lock form-icon"></i>
+            <input type="password" class="input form-input" name="password" placeholder="Create a password" required
+                minlength="6">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-user-plus"></i>
+        Create Account
+    </button>
+</form>
+
+<!-- Demo Accounts -->
+<div class="demo-accounts">
+    <div class="demo-accounts-title">
+        <i class="fas fa-info-circle"></i>
+    </div>
+
+    <div style="text-align: center; margin-top: var(--space-6);">
+        <a href="index.html" style="color: var(--text-secondary); font-size: var(--text-sm);">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script>
+    function switchTab(tab) {
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        if (tab === 'login') {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginForm.style.display = 'flex';
+            registerForm.style.display = 'none';
+        } else {
+            registerTab.classList.add('active');
+            loginTab.classList.remove('active');
+            registerForm.style.display = 'flex';
+            loginForm.style.display = 'none';
+        }
+    }
+
+    async function handleLogin(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const email = formData.get('email');
+        const password = formData.get('password');
+
+        const result = await Auth.login(email, password);
+
+        if (result.success) {
+            // Check for redirect parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect') || 'index.html';
+
+            setTimeout(() => {
+                window.location.href = redirect;
+            }, 1000);
+        }
+    }
+
+    async function handleRegister(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        const userData = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            college: formData.get('college'),
+            phone: formData.get('phone'),
+            password: formData.get('password')
+        };
+
+        const result = await Auth.register(userData);
+
+        if (result.success) {
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+    }
+
+    async function quickLogin(type) {
+        const credentials = {
+            student: { email: 'student@college.edu', password: 'student123' },
+            admin: { email: 'admin@spp.com', password: 'admin123' }
+        };
+
+        const cred = credentials[type];
+        const result = await Auth.login(cred.email, cred.password);
+
+        if (result.success) {
+            setTimeout(() => {
+                if (type === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        }
+    }
+
+    // Check if already logged in
+    document.addEventListener('DOMContentLoaded', () => {
+        if (Auth.isLoggedIn()) {
+            const user = Auth.getCurrentUser();
+            showToast('info', 'Already Logged In', `You're already logged in as ${user.name}`);
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+    });
+</script>
+</body>
+
+</html>
