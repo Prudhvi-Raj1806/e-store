@@ -1,5 +1,5 @@
 // ============================================
-// ADMIN PANEL - Student Purchase Program
+// ADMIN PANEL - e-store
 // ============================================
 
 let allProducts = [];

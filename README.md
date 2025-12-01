@@ -1,14 +1,3 @@
-# PropShop24 - Student Purchase Program
-
-## 🎓 Overview
-
-PropShop24 is a modern, premium e-commerce platform designed specifically for students. Built with vanilla HTML, CSS, and JavaScript, it features a complete shopping experience with a dummy backend for demonstration purposes.
-
-## 🚀 Quick Start
-
-### Option 1: One-Click Start (Recommended)
-1.  **Double-click** `start-website.bat`
-2.  The website will open automatically in your browser!
 
 ### Option 2: Manual Start
 1.  Open a terminal in this folder

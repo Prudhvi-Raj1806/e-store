@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo   Starting PropShop24 Website
+echo   Starting e-store Website
 echo ========================================
 echo.
 

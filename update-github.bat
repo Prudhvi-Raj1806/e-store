@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo   Updating PropShop24 on GitHub
+echo   Updating e-store on GitHub
 echo ========================================
 echo.
 
@@ -50,10 +50,10 @@ if %errorlevel% equ 0 (
     echo ========================================
     echo.
     echo Your website will update in 1-2 minutes at:
-    echo https://YOUR_USERNAME.github.io/propshop24/
+    echo https://YOUR_USERNAME.github.io/e-store/
     echo.
     echo Check deployment status at:
-    echo https://github.com/YOUR_USERNAME/propshop24/actions
+    echo https://github.com/YOUR_USERNAME/e-store/actions
     echo.
 ) else (
     echo.

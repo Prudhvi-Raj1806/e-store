@@ -1,5 +1,5 @@
 // ============================================
-// CART PAGE - Student Purchase Program
+// CART PAGE - e-store
 // ============================================
 
 async function initCartPage() {

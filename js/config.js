@@ -26,7 +26,7 @@ const CONFIG = {
 
     // Default Settings
     DEFAULTS: {
-        CURRENCY: '₹',
+        CURRENCY: '🪙',
         ITEMS_PER_PAGE: 12,
         FREE_SHIPPING_THRESHOLD: 999,
         VC_EARN_RATE: 0.01, // 1% of purchase as VC points
@@ -44,10 +44,10 @@ const CONFIG = {
 
     // Price Ranges
     PRICE_RANGES: [
-        { label: 'Under ₹300', min: 0, max: 300 },
-        { label: '₹301 - ₹1000', min: 301, max: 1000 },
-        { label: '₹1001 - ₹5000', min: 1001, max: 5000 },
-        { label: 'Above ₹5000', min: 5001, max: Infinity }
+        { label: 'Under 300🪙', min: 0, max: 300 },
+        { label: '301🪙 - 1000🪙', min: 301, max: 1000 },
+        { label: '1001🪙 - 5000🪙', min: 1001, max: 5000 },
+        { label: 'Above 5000🪙', min: 5001, max: Infinity }
     ],
 
     // Sort Options
