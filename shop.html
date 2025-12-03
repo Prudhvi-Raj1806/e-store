@@ -12,59 +12,63 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/pages/shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Oswald:wght@500;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <!-- Header (Same as index.html) -->
+    <!-- Header -->
     <header class="header">
-        <div class="header-top">
-            <div class="container">
-                <div class="header-top-content">
-                    <div class="header-top-left">
-                        <span>📧 support@spp.com</span>
-                        <span>📞 +91 1800-123-4567</span>
+        <div class="container">
+            <div class="header-main-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">🚀</div>
+                    <div class="logo-text">
+                        <span class="logo-text-main">E-Cell</span>
+                        <span class="logo-text-sub">Store</span>
                     </div>
-                    <div class="header-top-right">
-                        <span>🎓 Exclusive Student Deals</span>
-                        <span>🚚 Free Shipping on Orders Above 999 VC</span>
+                </a>
+
+                <!-- Search Bar -->
+                <div class="search-input-wrapper" style="flex: 1; max-width: 600px; margin: 0 var(--space-6);">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="searchInput"
+                        placeholder="Search for products, categories...">
+                    <button class="search-btn" onclick="performSearch()">Search</button>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="header-actions">
+                    <div class="vc-balance" id="vcBalance">
+                        <i class="fas fa-coins"></i>
+                        <span id="vcAmount">0🪙</span>
                     </div>
+
+                    <button class="header-action-btn" onclick="window.location.href='wishlist.html'">
+                        <i class="fas fa-heart header-action-icon"></i>
+                        <span class="header-action-label">Wishlist</span>
+                        <span class="header-action-badge" id="wishlistCount">0</span>
+                    </button>
+
+                    <button class="header-action-btn" onclick="window.location.href='cart.html'">
+                        <i class="fas fa-shopping-cart header-action-icon"></i>
+                        <span class="header-action-label">Cart</span>
+                        <span class="header-action-badge" id="cartCount">0</span>
+                    </button>
+
+                    <button class="header-action-btn" id="userBtn">
+                        <i class="fas fa-user header-action-icon"></i>
+                        <span class="header-action-label" id="userLabel">Login</span>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <i class="fas fa-search search-icon"></i>
-        <input type="text" class="search-input" id="searchInput" placeholder="Search for products, categories...">
-        <button class="search-btn" onclick="performSearch()">Search</button>
-        </div>
-        </div>
-
-        <div class="header-actions">
-            <div class="vc-balance" id="vcBalance">
-                <i class="fas fa-coins"></i>
-                <span id="vcAmount">0 VC</span>
-            </div>
-
-            <button class="header-action-btn" onclick="window.location.href='wishlist.html'">
-                <i class="fas fa-heart header-action-icon"></i>
-                <span class="header-action-label">Wishlist</span>
-                <span class="header-action-badge" id="wishlistCount">0</span>
-            </button>
-
-            <button class="header-action-btn" onclick="window.location.href='cart.html'">
-                <i class="fas fa-shopping-cart header-action-icon"></i>
-                <span class="header-action-label">Cart</span>
-                <span class="header-action-badge" id="cartCount">0</span>
-            </button>
-
-            <button class="header-action-btn" id="userBtn">
-                <i class="fas fa-user header-action-icon"></i>
-                <span class="header-action-label" id="userLabel">Login</span>
-            </button>
-        </div>
-        </div>
-        </div>
-        </div>
-
+        <!-- Navigation -->
         <nav class="nav">
             <div class="container">
                 <div class="nav-content">
@@ -81,7 +85,7 @@
                         <li><a href="#" class="nav-link" onclick="filterByCategory('Student Startups')">Student
                                 Startups</a></li>
                         <li><a href="community.html" class="nav-link">Announcements📢</a></li>
-                        <li><a href="index.html#about" class="nav-link">About E-Cell</a></li>
+                        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
                     </ul>
 
                     <button class="theme-toggle" onclick="toggleTheme()">
